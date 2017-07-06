@@ -1,0 +1,43 @@
+<nav class="navbar navbar-inverse">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only"> Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" routerLink="/home">MEAN</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-left">
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/home">Home</a></li>
+        <li><a routerLink="/home">Random</a></li>
+        
+        
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a routerLink="/home">Action</a></li>
+            <li><a routerLink="/home">Another action</a></li>
+            <li><a routerLink="/home">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a routerLink="/home">Separated link</a></li>
+            <li class="divider"></li>
+            <li><a routerLink="/home">One more separated link</a></li>
+          </ul>
+        </li>
+
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/home">Profile</a></li>
+        <li><a routerLink="/home">Blog</a></li>
+        <li><a routerLink="/home">Login</a></li>
+        <li><a routerLink="/home">LogOut</a></li>
+        <li><a routerLink="/home">Register</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
