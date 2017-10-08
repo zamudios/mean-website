@@ -1,0 +1,10 @@
+.logForm{
+    width:800px; 
+    margin:0 auto;
+    padding: 10%;
+    text-align: center;
+
+    border-style:solid;
+    border-color:black;
+    border-radius: 5px;
+}

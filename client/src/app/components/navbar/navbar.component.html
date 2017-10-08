@@ -15,7 +15,7 @@
         <li><a routerLink="/home">Random</a></li>
         
         
-        <li class="dropdown">
+        <!-- <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a routerLink="/home">Action</a></li>
@@ -26,17 +26,17 @@
             <li class="divider"></li>
             <li><a routerLink="/home">One more separated link</a></li>
           </ul>
-        </li>
+        </li> -->
 
 
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
-        <li><a routerLink="/home">Profile</a></li>
-        <li><a routerLink="/home">Blog</a></li>
-        <li><a routerLink="/home">Login</a></li>
-        <li><a routerLink="/home">LogOut</a></li>
-        <li><a routerLink="/home">Register</a></li>
+        <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">Dashboard</a></li>
+        <li *ngIf="authService.loggedIn()" ><a routerLink="/profile">Profile</a></li>
+        <li *ngIf="authService.loggedIn()" ><a routerLink="/home">Blog</a></li>
+        <li *ngIf="!authService.loggedIn()" ><a routerLink="/login">Login</a></li>
+        <li *ngIf="authService.loggedIn()" ><a href="#" (click)="onLogout()">LogOut</a></li>
+        <li *ngIf="!authService.loggedIn()" ><a routerLink="/register">Register</a></li>
       </ul>
     </div>
   </div>

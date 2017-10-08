@@ -1,18 +1,41 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+// Importing components for the routes created.
 import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/login/login.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { AuthGuard } from './guards/auth.guard';
+import { UnAuthGuard } from './guards/unauth.guard'
 
+// Array of Angular Routes
 const appRoutes: Routes = [
     {   path: '', 
-        component: HomeComponent
+        component: HomeComponent        // Default route.
     },
     {
         path:'dashboard',
-        component: DashboardComponent 
+        component: DashboardComponent,  // Dashboard route.
+        canActivate: [AuthGuard]        // If user is logged in they can activate this page.   
+    },
+    {
+        path:'register',                // Registration route.
+        component: RegisterComponent,
+        canActivate: [UnAuthGuard]
+    },
+    {
+        path:'login',                   // Log in route.
+        component: LoginComponent,
+        canActivate: [UnAuthGuard]  
+    },
+    {
+        path:'profile',
+        component: ProfileComponent,
+        canActivate: [AuthGuard]
     },
     {    
-        path: '**', 
+        path: '**',                     // Everything else that is not specified.
         component: HomeComponent}
 ];
 
