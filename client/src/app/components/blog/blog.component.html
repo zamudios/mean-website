@@ -1,0 +1,100 @@
+
+<h1 class="page-header">Blog</h1>
+
+<div class="row show-hide-message" *ngIf="message && newPost">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>
+
+<button type="button" name="button" class="btn btn-warning pull-left" *ngIf="newPost" [disabled]="processing" (click)="goBack()"><span class="glyphicon glyphicon-chevron-left"></span>Back</button>
+<br/>
+<br/>
+<button type="button" name="button" class="btn btn-warning" *ngIf="!newPost" (click)="blogForm()"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;New Post</button>
+<button type="button" name="button" class="btn btn-default" [disabled]="loading" *ngIf="!newPost" (click)="refreshBlogs()"><span class="glyphicon glyphicon-refresh"></span>&nbsp;&nbsp;Refresh</button>
+
+<br/>
+<br/>
+
+<!-- New Entry -->
+<form (submit)="submit()" *ngIf="newPost" [formGroup]="form" name="blogForm">
+  <!-- Title -->
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div [ngClass]="{ 'has-success': form.controls.title.valid, 'has-error': form.controls.title.dirty && form.controls.title.errors }">
+      <input type="text" name="title" autofocus="off" autocomplete="off" formControlName="title" class="form-control"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.required">This field is required.</li>
+        <!-- <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.minlength)">A Title is required</li>         -->
+        <li *ngIf="(form.controls.title.dirty && form.controls.title.errors?.maxlength)">Max length is 40</li>
+        <li *ngIf="form.controls.title.dirty && form.controls.title.errors?.valid">No special characters allowed.</li>
+      </ul>
+    </div>
+  </div>
+  <!-- Body -->
+  <div class="form-group">
+      <!-- <label for="body">Post</label> -->
+      <div [ngClass]="{ 'has-success': form.controls.body.valid, 'has-error': form.controls.body.dirty && form.controls.body.errors }">
+        <textarea class="form-control" formControlName="body" name="body" rows="5" cols="50" placeholder="What do want to say?"></textarea>
+        <ul class="help-block">
+          <li *ngIf="form.controls.body.dirty && form.controls.body.errors?.required">This field is required.</li>
+          <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.minlength)">Minimum length is 10. </li>  
+          <li *ngIf="(form.controls.body.dirty && form.controls.body.errors?.maxlength)">Max length is 500.</li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn btn-success pull-right" [disabled]="!form.valid || processing" type="submit" name="button"><span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;Submit</button>
+</form>
+
+
+<!-- <div class=""></div> -->
+<div *ngIf="!newPost">
+  <div *ngFor="let blog of collection" class="panel panel-primary">
+    <div class="panel-heading clearfix">
+      <!-- <h3 class="panel-title pull-left">Post Title</h3> -->
+      <h3 *ngIf="username === blog.author" class="panel-title pull-left" style="padding-top: 1%;"> {{ blog.title }} </h3>
+      <h3 *ngIf="username !== blog.author" class="panel-title pull-left"> {{ blog.title }} </h3>      
+        <div class="pull-right">
+          <a [routerLink]="['/edit/', blog._id]" *ngIf="username === blog.author"><button type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;Edit</button></a>
+          <a [routerLink]="['/delete/', blog._id]" *ngIf="username === blog.author"><button type="button" name="button" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete</button></a>
+          <!-- <a data-toggle="modal" data-target="#deleteModal" *ngIf="username === blog.author"><button type="button" name="button" class="btn btn-sm btn-danger">Delete</button></a> -->
+        </div>
+      </div>
+    <div clas="panel-body"> {{ blog.body }}</div>
+    <div class="panel-footer">
+      <strong>Posted by:</strong>&nbsp;&nbsp;{{ blog.author }}
+      <br/>
+      {{ blog.date | date: 'MMM dd, yyyy'}}
+    </div>
+    <ul class="list-group clearfix">
+        <li class="list-group-item clearfix">
+          <button (click)="draft()" type="button" name="button" class="btn btn-sm btn-danger pull-right">Comment</button>
+          <div class="pull-left">
+              <button [disabled]="username === blog.author" (click)="like(blog._id)" type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ blog.likes }}</button>
+            <button [disabled]="username === blog.author" (click)="dislike(blog._id)" type="button" name="button" class="btn btn-sm btn-info "><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;{{ blog.dislikes }}</button>
+          </div>
+            <!-- <form>
+            <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
+            <button (click)="post() " type="button" name="button" class="btn btn-sm btn-info">Post</button>
+          </form> -->
+        </li>
+    </ul>
+  </div>
+</div>
+
+<!-- <div class="modal fade centered-modal" id="deleteModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a small modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div> -->

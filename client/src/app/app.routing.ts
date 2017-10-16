@@ -6,6 +6,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PublicProfileComponent } from './components/public-profile/public-profile.component';
+import { BlogComponent } from './components/blog/blog.component';
+import { EditComponent } from './components/blog/edit/edit.component';
+import { DeleteComponent } from './components/blog/delete/delete.component';
 import { AuthGuard } from './guards/auth.guard';
 import { UnAuthGuard } from './guards/unauth.guard'
 
@@ -32,6 +36,23 @@ const appRoutes: Routes = [
     {
         path:'profile',
         component: ProfileComponent,
+        canActivate: [AuthGuard]
+    }, {
+        path: 'user/:username',
+        component: PublicProfileComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path:'blog',
+        component: BlogComponent,
+        canActivate: [AuthGuard]
+    },{
+        path:'edit/:id',
+        component: EditComponent,
+        canActivate: [AuthGuard]
+    }, {
+        path: 'delete/:id',
+        component: DeleteComponent,
         canActivate: [AuthGuard]
     },
     {    

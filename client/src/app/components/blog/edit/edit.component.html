@@ -1,0 +1,28 @@
+<h1 class="page-header">Edit Blog</h1>
+
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">{{ message }}</div>
+</div>
+
+
+<button class="btn btn-success " [disabled]="processing" type="button" name="button" (click)="back()"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;&nbsp;Back</button>
+<br/>
+<br/>
+<br/>
+
+  <form (submit)="update()" *ngIf="!loading">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input [disabled]="processing" type="text" name="title" class="form-control" [(ngModel)]="blog.title"/> 
+    </div>
+
+    <div class="form-group">
+        <label for="title">Body</label>
+        <textarea name="body" cols="50" rows="10" [(ngModel)]="blog.body" class="form-control"></textarea>
+    </div>
+    
+    <div class="pull-right">
+      <a [routerLink]="['/delete/', blog._id]"><button [disabled]="processsing" class="btn btn-danger" type="button" name="button"><span class="glyphicon glyphicon-trash"></span>&nbsp;&nbsp;Delete</button></a>
+      <button type="submit" [disabled]="processing" name="save" class="btn btn-info"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Save</button>
+    </div>
+  </form>

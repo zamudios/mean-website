@@ -101,7 +101,7 @@ module.exports = (router) => {
                         res.json({ success: true, message: 'Username is available'});
                     }
                 }
-            })
+            });
         }
     });
 
@@ -168,6 +168,22 @@ module.exports = (router) => {
                 }
             }
         })
+    });
+
+    router.get('/public/:username', (req, res) => {
+        if (!req.params.username) {
+            res.json({ success: false, message: 'User not found.'});
+        } else {
+            User.findOne({ username: req.params.username }).select('username email').exec((err, user) => {
+                if (err) {
+                    res.json({ success: false, message: 'User not found.'});
+                } else if (!user) {
+                    res.json({ success: false, message: 'User not found.'});
+                } else {
+                    res.json({ success: true, user: user });
+                }
+            })
+        }
     });
 
     return router;

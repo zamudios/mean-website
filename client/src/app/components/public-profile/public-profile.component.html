@@ -1,0 +1,90 @@
+<div class="row show-hide-message" *ngIf="message">
+  <div [ngClass]="messageClass">
+    {{ message }}
+  </div>
+</div>  
+
+<div class="container text-center">    
+  <div class="row">
+    <div class="col-sm-3 well">
+
+      <div class="well user" style="background-image: url('../../assets/images/user-default.png');"></div> 
+      <!-- ABOUT OR INTERESTS  -->
+      <h4>{{ username }}</h4>
+      <div class="well">
+        <!-- <p><a href="#">Interests</a></p>
+        <p>
+          <span class="label label-default">News</span>
+          <span class="label label-primary">W3Schools</span>
+          <span class="label label-success">Labels</span>
+          <span class="label label-info">Football</span>
+          <span class="label label-warning">Gaming</span>
+          <span class="label label-danger">Friends</span>
+        </p> -->
+      </div>
+
+
+      <div class="alert alert-success fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+        <p><strong>Ey!</strong></p>
+        People are looking at your profile. Find out who.
+      </div>
+
+      <!-- LINKS TOO OTHER PROFILES TWITTER, FACEBOOK, INSTAGRAM -->
+      <!-- <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p>
+      <p><a href="#">Link</a></p> -->
+    </div>
+
+    <div class="col-sm-7">
+        <div *ngFor="let blog of collection" class="panel panel-primary">
+            <div class="panel-heading clearfix">
+              <!-- <h3 class="panel-title pull-left">Post Title</h3> -->
+              <!-- <h3 *ngIf="username === blog.author" class="panel-title pull-left" style="padding-top: 1%;"> {{ blog.title }} </h3> -->
+              <h3 class="panel-title pull-left"> {{ blog.title }} </h3>      
+              </div>
+            <div clas="panel-body"> {{ blog.body }}</div>
+            <div class="panel-footer">
+              <strong>Posted by:</strong>&nbsp;&nbsp;{{ blog.author }}
+              <br/>
+              {{ blog.date | date: 'MMM dd, yyyy'}}
+            </div>
+            <ul class="list-group clearfix">
+                <li class="list-group-item clearfix">
+                  <button (click)="draft()" type="button" name="button" class="btn btn-sm btn-danger pull-right">Comment</button>
+                  <div class="pull-left">
+                      <button [disabled]="username === blog.author" (click)="like(blog._id)" type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ blog.likes }}</button>
+                    <button [disabled]="username === blog.author" (click)="dislike(blog._id)" type="button" name="button" class="btn btn-sm btn-info "><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;{{ blog.dislikes }}</button>
+                  </div>
+                    <!-- <form>
+                    <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
+                    <button (click)="post() " type="button" name="button" class="btn btn-sm btn-info">Post</button>
+                  </form> -->
+                </li>
+            </ul>
+          </div>
+    </div>
+
+
+    <div class="col-sm-2 well">
+      <div class="thumbnail">
+        <p>Upcoming Events:</p>
+        <img src="paris.jpg" alt="Paris" width="400" height="300">
+        <p><strong>Paris</strong></p>
+        <p>Fri. 27 November 2015</p>
+        <button class="btn btn-primary">Info</button>
+      </div>      
+      <div class="well">
+        <p>ADS</p>
+      </div>
+      <div class="well">
+        <p>ADS</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid text-center">
+  <p>Footer Text</p>
+</footer>
+

@@ -3,6 +3,7 @@
     collection and defines the shape of the documents within the collection.
  ********************************************/
 var mongoose = require('mongoose');
+var ObjectId = require('mongoose').Schema.ObjectId;
 mongoose.Promise = global.Promise;
 
 var Schema = mongoose.Schema;                       // Mongoose schema.
@@ -100,7 +101,7 @@ let validPassword = (password) => {
 };
 
 // Test that will be applied to passwords.
-const passwordValidator = [
+const passwordValidators = [
     {
         validator: passwordCheck,
         message: 'Password must be at least 8 characters but no more than 35.'
@@ -112,9 +113,11 @@ const passwordValidator = [
 ];
 
 var userSchema = new Schema({
-    email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators},
-    username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators}, 
-    password: { type: String, required: true, validate: passwordValidator}
+    email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
+    username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators }, 
+    password: { type: String, required: true, validate: passwordValidators },
+    likes: [{ type: String }],
+    dislikes: [{ type: String }]
 });
 
 // Ecrypt user password.

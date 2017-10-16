@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { tokenNotExpired } from 'angular2-jwt';                   
 import 'rxjs/add/operator/map';
+import { tokenNotExpired } from 'angular2-jwt';                   
+
 
 @Injectable()
 export class AuthService {
 
   // Development Domain - 
-  domain = "http://localhost:3000"; 
+  domain = "http://localhost:3000/"; 
   token;                              // User token
   user;                               // & information.
   options;
@@ -35,20 +36,20 @@ export class AuthService {
 
   // Register Users.
   registerUser(user) {
-    return this.http.post(this.domain + '/authentication/register', user).map(res => res.json());
+    return this.http.post(this.domain + 'authentication/register', user).map(res => res.json());
   }
 
   checkUsername(username) {
-    return this.http.get(this.domain + '/authentication/checkUsername/' + username).map(res => res.json());
+    return this.http.get(this.domain + 'authentication/checkUsername/' + username).map(res => res.json());
   }
 
   checkEmail(email) {
-    return this.http.get(this.domain + '/authentication/checkEmail/' + email).map(res => res.json());
+    return this.http.get(this.domain + 'authentication/checkEmail/' + email).map(res => res.json());
   }
 
   // Function to log in user.
   login(user) {
-    return this.http.post(this.domain + '/authentication/login', user).map(res => res.json());
+    return this.http.post(this.domain + 'authentication/login', user).map(res => res.json());
   } 
 
   // Function to log out user.
@@ -68,7 +69,7 @@ export class AuthService {
 
   getProfile() {
     this.authenticationHeaders();
-    return this.http.get(this.domain + '/authentication/profile', this.options).map(res => res.json());
+    return this.http.get(this.domain + 'authentication/profile', this.options).map(res => res.json());
   }
 
   // Check if the user is logged in or the token is valid.
@@ -76,5 +77,9 @@ export class AuthService {
     return tokenNotExpired();
   }
 
+  publicProfile(username) {
+    this.authenticationHeaders();
+    return this.http.get(this.domain + 'authentication/public/' + username, this.options).map(res => res.json());
+  }
 }
 
