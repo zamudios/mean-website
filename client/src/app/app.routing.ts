@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
+import { EditProfileComponent } from './components/profile/edit-profile/edit-profile.component'
 import { ProfileComponent } from './components/profile/profile.component';
 import { PublicProfileComponent } from './components/public-profile/public-profile.component';
 import { BlogComponent } from './components/blog/blog.component';
@@ -37,7 +38,12 @@ const appRoutes: Routes = [
         path:'profile',
         component: ProfileComponent,
         canActivate: [AuthGuard]
-    }, {
+    },{
+        path: 'edit-profile/:id',
+        component: EditProfileComponent,
+        canActivate: [AuthGuard]
+    },
+    {
         path: 'user/:username',
         component: PublicProfileComponent,
         canActivate: [AuthGuard]
@@ -54,7 +60,7 @@ const appRoutes: Routes = [
         path: 'delete/:id',
         component: DeleteComponent,
         canActivate: [AuthGuard]
-    },
+    }, 
     {    
         path: '**',                     // Everything else that is not specified.
         component: HomeComponent}

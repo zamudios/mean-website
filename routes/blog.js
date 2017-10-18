@@ -329,5 +329,45 @@ module.exports = (router) => {
         }
     }); 
 
+    // Route to post comments on post
+    router.post('/comment', (req, res) => {
+        if (!req.body.comment) {
+            res.json({ success: false, message: 'No comment submited.'})
+        } else if (!req.body.id) {
+            res.json({ success: false, message: 'Cannot find post.'});
+        } else {
+            // Find post by id to comment on.
+            Blog.findOne({ _id: req.body.id}, (err, blog) => {
+                if (err) {
+                    res.json({ success: false, message: 'Cannot find post.'});
+                } else if (!blog) {
+                    res.json({ success: false, message: 'Cannot find post.'});
+                } else {
+                    // Find user that is currently logged in.
+                    User.findOne({ _id: req.decoded.userId }, (err, user) => {
+                        if (err) {
+                            res.json({ success: false, message: 'Error. Something went wrong.'});
+                        } else if (!user) {
+                            res.json({ success: false, message: 'User not found.'});
+                        } else {
+                            blog.comments.push({
+                                comment: req.body.comment,
+                                author: user.username
+                            });
+                            blog.save((err) => {
+                                if (err) {
+                                    console.log(err);
+                                    res.json({ success: false, message: 'Unable to post comment.'});
+                                } else {
+                                    res.json({ success: true, message: 'Comment'})
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
+
     return router;
 };

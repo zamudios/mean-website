@@ -4,3 +4,16 @@
 .centered-modal .modal-dialog {
     margin: auto;
 }
+
+h1 {
+    color: #1481B1;
+}
+
+h4 {
+    color: #1481B1;
+}
+
+
+.postBody { 
+    padding: 1.5%;
+}

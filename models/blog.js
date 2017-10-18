@@ -61,7 +61,7 @@ const bodyValidators = [
 ];
 
 // Set comment length restrictions.
-let commentCheck = (password) => {
+let commentCheck = (comment) => {
     if (!comment[0]) {
         return false;
     } else if (comment[0].length < 1 || comment[0].length > 200) {
@@ -75,7 +75,7 @@ let commentCheck = (password) => {
 const commentValidators = [
     {
         validator: commentCheck,
-        message: 'Password must not be empty or no more than 200.'
+        message: 'comment must not be empty or no more than 200.'
     }
 ];
 

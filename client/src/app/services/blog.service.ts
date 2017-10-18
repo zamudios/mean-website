@@ -61,8 +61,17 @@ export class BlogService {
   }
 
   dislike(id) {
-    const data = { id: id};
+    const data = { id: id };
     // this.authenticationHeaders();
     return this.http.put(this.domain + 'blogs/dislike', data, this.options).map(res => res.json());
+  }
+
+  comment(id, comment) {
+    this.authenticationHeaders();
+    const data = {
+      id: id,
+      comment: comment
+    };
+    return this.http.post(this.domain + 'blogs/comment', data, this.options).map(res => res.json());
   }
 }

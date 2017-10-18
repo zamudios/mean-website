@@ -29,11 +29,25 @@ h4{
 
 .user {
     display: inline-block;
+
     width: 150px;
     height: 150px;
     border-radius: 50%;
-  
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+}
+
+  .profile-card {
+    background-color: #DFF0FD !important;
+    /* width: 100vw;
+    padding: 0px !important;
+    margin: 0px !important; */
   }
+
+    .postBody{
+        padding: 2.5%;
+    }

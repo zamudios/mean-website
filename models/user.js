@@ -112,12 +112,30 @@ const passwordValidators = [
     }
 ];
 
+let aboutLength = (about) => {
+    if (about.length > 250) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+const aboutValidators = [
+    {
+        validator: aboutLength,
+        message: 'About section cannot be longer than 250 characters long.'
+    }
+]
+
 var userSchema = new Schema({
     email: { type: String, required: true, unique: true, lowercase: true, validate: emailValidators },
     username: { type: String, required: true, unique: true, lowercase: true, validate: usernameValidators }, 
     password: { type: String, required: true, validate: passwordValidators },
+    about: { type: String, validate: aboutValidators },
+    following: [{ type: String }], 
     likes: [{ type: String }],
-    dislikes: [{ type: String }]
+    dislikes: [{ type: String }],
+    photo: { data: Buffer, contentType: String }
 });
 
 // Ecrypt user password.

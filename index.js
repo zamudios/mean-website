@@ -11,6 +11,7 @@ const authentication = require('./routes/authentication')(router);      // Impor
 const blogs = require('./routes/blog')(router);
 const bodyParser = require('body-parser');      // Parse incoming request bodies in a middleware before handlers, available under the req.body property.
 const cors = require('cors');
+const port = process.env.PORT || 3000;
 
 // Database Connection
 mongoose.Promise = global.Promise;
@@ -33,16 +34,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // Parse application/json
 app.use(bodyParser.json());
 // Provide static directory for frontend
-app.use(express.static(__dirname + '/client/dist/'));
+app.use(express.static(__dirname + '/public'));
 app.use('/authentication', authentication);
 app.use('/blogs', blogs);
 
 // Connect server to angular 4 Index.html
 app.get('*', (req, res) => {                    // Handle user GET request.
-    res.sendFile(path.join(__dirname + '/client/dist/index.html'));
+    res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // Start Server: Listen on port 3000.
-app.listen(3000, () => {                        // Tell server to listen on port 3000.
-    console.log('listening of port 3000');
+app.listen(port, () => {                        // Tell server to listen on port 3000.
+    console.log('listening of port ' + port);
 });

@@ -14,15 +14,15 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-left">
         <li [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/home"><span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp;Home</a></li>
-        <li><a routerLink="/home">Random</a></li>
-        
-
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="authService.loggedIn()" ><a routerLink="/profile"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Profile</a></li>
         <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}"><a routerLink="/dashboard">
           <span class="glyphicon glyphicon-dashboard"></span>&nbsp;&nbsp;Dashboard</a></li>
-        <li *ngIf="authService.loggedIn()" ><a routerLink="/profile"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Profile</a></li>
-        <li *ngIf="authService.loggedIn()" ><a routerLink="/blog"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;Blog</a></li>
+          <li *ngIf="authService.loggedIn()" ><a routerLink="/blog"><span class="glyphicon glyphicon-globe"></span>&nbsp;&nbsp;Discover</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+        
+        
         <li *ngIf="!authService.loggedIn()" ><a routerLink="/login">Log In</a></li>
         <li *ngIf="authService.loggedIn()" ><a href="#" (click)="onLogout()">LogOut</a></li>
         <li *ngIf="!authService.loggedIn()" ><a routerLink="/register">Register</a></li>

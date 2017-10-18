@@ -11,6 +11,7 @@ import { BlogService } from '../../services/blog.service';
 export class BlogComponent implements OnInit {
 
   form;
+  commentForm;
   messageClass;
   message;
   username;
@@ -19,6 +20,8 @@ export class BlogComponent implements OnInit {
   loading = false;
   newPost = false;
   simple;
+  newComment = [];
+  enabledComments = [];
 
   
 
@@ -28,6 +31,7 @@ export class BlogComponent implements OnInit {
     private blogService: BlogService
   ) { 
     this.createBlog();
+    this.createComment();
   }
 
   // Blog form.
@@ -52,6 +56,16 @@ export class BlogComponent implements OnInit {
     });
   }
 
+  createComment() {
+    this.commentForm = this.formBuilder.group({
+      comment: ['', Validators.compose([
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(200)
+      ])]
+    });
+  }
+
   valid(controls) {
     const regExp = new RegExp(/^[a-zA-Z0-9 ]+$/);
     if (regExp.test(controls.value)) {
@@ -71,6 +85,14 @@ export class BlogComponent implements OnInit {
     this.form.get('body').disable();
   }
 
+  enableComment() {
+    this.commentForm.get('comment').enable();
+  }
+
+  disableComment() {
+    this.commentForm.get('comment').disable();
+  }
+
   // Refresh blog section. Get 'new' blogs from database. 
   refreshBlogs() {
     this.loading = true;
@@ -85,10 +107,6 @@ export class BlogComponent implements OnInit {
       this.username = profile.user.username;
     });
     this.getPostCollection();
-  }
-
-  draft() {
-    
   }
 
   getPostCollection() {
@@ -133,6 +151,48 @@ export class BlogComponent implements OnInit {
         }, 2000);
       }
     });
+  }
+
+  postComment(id) {
+    this.disableComment(); // Disable form while saving comment to database
+    this.processing = true; // Lock buttons while saving comment to database
+    const comment = this.commentForm.get('comment').value; // Get the comment value to pass to service function
+    // Function to save the comment to the database
+    this.blogService.comment(id, comment).subscribe(data => {
+      console.log(data)
+      this.getPostCollection(); // Refresh all blogs to reflect the new comment
+      const index = this.newComment.indexOf(id); // Get the index of the blog id to remove from array
+      this.newComment.splice(index, 1); // Remove id from the array
+      this.enableComment(); // Re-enable the form
+      this.commentForm.reset(); // Reset the comment form
+      this.processing = false; // Unlock buttons on comment form
+      if (this.enabledComments.indexOf(id) < 0) {
+        this.expand(id); // Expand comments for user on comment submission
+      }
+    });
+  }
+
+  cancelComment(id) {
+    const index = this.newComment.indexOf(id);
+    this.newComment.splice(index, 1);
+    this.commentForm.reset();
+    this.enableComment();
+    this.processing = false;
+  }
+
+  expand(id) {
+    this.enabledComments.push(id);
+  }
+
+  collapse(id) {
+    const index = this.enabledComments.indexOf(id);
+    this.enabledComments.splice(index, 1);
+  }
+
+  draft(id) {
+    this.commentForm.reset();
+    this.newComment = [];
+    this.newComment.push(id);
   }
 
   like(id) {

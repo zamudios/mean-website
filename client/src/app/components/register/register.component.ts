@@ -15,7 +15,7 @@ export class RegisterComponent implements OnInit {
   }
 
   // Exporting a form of FormGroup type.
-  registrationForm: FormGroup;
+  registrationForm;
   message; 
   messageClass;
   processing = false;

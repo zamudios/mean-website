@@ -170,6 +170,10 @@ module.exports = (router) => {
         })
     });
 
+    router.post('', (req, res) => {
+        
+    });
+
     router.get('/public/:username', (req, res) => {
         if (!req.params.username) {
             res.json({ success: false, message: 'User not found.'});

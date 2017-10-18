@@ -43,7 +43,11 @@
               <!-- <h3 *ngIf="username === blog.author" class="panel-title pull-left" style="padding-top: 1%;"> {{ blog.title }} </h3> -->
               <h3 class="panel-title pull-left"> {{ blog.title }} </h3>      
               </div>
-            <div clas="panel-body"> {{ blog.body }}</div>
+            <div clas="panel-body">
+              <div class="postBody">
+                  {{ blog.body }}
+              </div>
+            </div>
             <div class="panel-footer">
               <strong>Posted by:</strong>&nbsp;&nbsp;{{ blog.author }}
               <br/>
@@ -51,16 +55,47 @@
             </div>
             <ul class="list-group clearfix">
                 <li class="list-group-item clearfix">
-                  <button (click)="draft()" type="button" name="button" class="btn btn-sm btn-danger pull-right">Comment</button>
+                  <button (click)="draft(blog._id)" [disabled]="newComment.indexOf(blog._id) > -1" type="button" name="button" class="btn btn-sm btn-danger pull-right">Comment</button>
                   <div class="pull-left">
                       <button [disabled]="username === blog.author" (click)="like(blog._id)" type="button" name="button" class="btn btn-sm btn-info"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;{{ blog.likes }}</button>
                     <button [disabled]="username === blog.author" (click)="dislike(blog._id)" type="button" name="button" class="btn btn-sm btn-info "><span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;&nbsp;{{ blog.dislikes }}</button>
                   </div>
-                    <!-- <form>
-                    <textarea name="comment" rows="10" cols="30" class="form-control"></textarea>
-                    <button (click)="post() " type="button" name="button" class="btn btn-sm btn-info">Post</button>
-                  </form> -->
-                </li>
+
+                  <br/>
+									<br/>
+										<div *ngIf="newComment.indexOf(blog._id) > -1">
+											<form [formGroup]="commentForm">
+												<textarea name="comment" rows="10" cols="30" class="form-control" formControlName="comment"></textarea>
+												<div [ngClass]="{'has-success': !commentForm.controls.comment.errors && commentForm.controls.comment.dirty, 'has-error': commentForm.controls.comment.dirty && commentForm.controls.comment.errors}">
+													<ul class="help-block">
+														<li *ngIf="commentForm.controls.comment.errors?.required && commentForm.controls.comment.dirty">
+															This field is required.
+														</li>
+														<li *ngIf="(commentForm.controls.comment.errors?.maxlength && commentForm.controls.comment.dirty) ||
+																		 (commentForm.controls.comment.errors?.minlength && commentForm.controls.comment.dirty)">
+															Comment cannot be empty and no more than 200 characters long.
+														</li>
+													</ul>
+												</div>
+												<button [disabled]="!commentForm.valid || processing" (click)="postComment(blog._id)" type="submit" name="button" class="btn btn-sm btn-info">Post</button>
+												<button [disabled]="processing" (click)="cancelComment(blog._id)" type="button" name="button" class="btn btn-sm btn-danger">Cancel</button>
+											</form>
+										</div>
+				
+										<li *ngIf="enabledComments.indexOf(blog._id) === -1 && blog.comments.length > 0" class="list-group-item"  align="center">
+											<span (click)="expand(blog._id)"><div class="glyphicon glyphicon-comment"></div>&nbsp;&nbsp;Show comments</span>
+										</li>
+				
+										<li *ngIf="enabledComments.indexOf(blog._id) > -1" class="list-group-item"  align="center">
+												<span (click)="collapse(blog._id)"><div class="glyphicon glyphicon-comment"></div>&nbsp;&nbsp;Hide comments</span>
+										</li>
+				
+										<div *ngIf="enabledComments.indexOf(blog._id) > -1">
+											<li *ngFor="let comment of blog.comments" class="list-group-item">
+												<strong>{{ comment.author }}: </strong> {{ comment.comment }}
+											</li>
+                    </div>
+                    
             </ul>
           </div>
     </div>

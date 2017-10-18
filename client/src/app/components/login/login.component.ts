@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 		this.createForm();
 	}
 
-	loginForm: FormGroup;
+	loginForm;
 	message;
 	messageClass;
 	processing = false;
@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
 					} else {
 						this.router.navigate(['/dashboard']);												
 					}
-				}, 2000);
+				}, 1000);
 
 			}
 		});
